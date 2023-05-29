@@ -106,3 +106,17 @@ export const updateProfile = catchAsyncError(async (req, res, next) => {
     message: `Profile Updated!`,
   });
 });
+
+export const request = catchAsyncError(async (req, res, next) => {
+  // const { requestDetails } = req.body;
+
+  User.find({}, (err, users) => {
+
+    users.forEach(user => {
+      user.request.push(req.body);
+      user.save();
+    });
+    res.status(200).json({ success: true, message: 'Request processed successfully for all users' });
+
+  });
+});
